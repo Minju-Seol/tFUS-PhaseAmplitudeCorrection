@@ -37,7 +37,7 @@ val_points = [i for i in remain if i not in fine_tune_points]
 sk_idx = 0
 aidx = 1
 
-data = torch.load("D:/multielement/successful_codes/github upload/repo_example_data.pt")
+data = torch.load("data/repo_example_data.pt")
 skull = data['skull']
 td_vxl = data['td_vxl']
 so_vxl = data['so_vxl']
@@ -133,7 +133,7 @@ fine_tune_epochs=30
 
 for td_idx in range(1024):
     print(f"Transducer index : {td_idx+1}")
-    ckpt_path = f'D:/multielement/successful_codes/Final_Codes/Amp_model/area{aidx}/Base/{td_idx+1:04d}.pth'
+    ckpt_path = f'checkpoints/Amp_model/Base/{td_idx+1:04d}.pth'
     model = TransducerMultiHeadModelAmp(num_fourier_freqs=16).to(device)
     model.load_state_dict(torch.load(ckpt_path, map_location=device), strict=False)
     model.eval()
@@ -221,7 +221,7 @@ for td_idx in range(1024):
             total_mae_val += mae_val.item()
             total_percent_val += mean_percent_error
             
-    # save_path = f'./Final_Codes/Amp_model/area{aidx}/Fine_tuned/Skull{sk_idx}/{td_idx+1:04d}.pth'
+    # save_path = f'checkpoints/Amp_model/Fine_tuned/{td_idx+1:04d}.pth'
     # torch.save(model.state_dict(), save_path)
 
     inference_time = (time.time() - start_time) / len(val_loader)
