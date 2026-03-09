@@ -31,7 +31,7 @@ val_points = [i for i in remain if i not in fine_tune_points]
 
 aidx = 1
 
-data = torch.load("D:/multielement/successful_codes/github upload/repo_example_data.pt")
+data = torch.load("data/repo_example_data.pt")
 skull = data['skull']
 td_vxl = data['td_vxl']
 so_vxl = data['so_vxl']
@@ -239,7 +239,7 @@ for td_idx in range(1024):
             inf_time += end_time - start_time
         print(f'{epoch+1}/{epochs} || KL Loss: {total_loss/len(train_loader):.6f} || Phase MAE: {total_mae/len(train_loader):.6f} || inf_time: {inf_time/len(train_loader):.6f}')
 
-    # torch.save(model.state_dict(), f"./Final_Codes/Phase_model/area{aidx}/Base/{td_idx+1:04d}.pth")
+    # torch.save(model.state_dict(), f"checkpoints/Phase_model/Base/{td_idx+1:04d}.pth")
     print(f'Base model {td_idx+1:04d} saved!')
     print(f'total pretraining time: {time.time() - starting} seconds')
 
