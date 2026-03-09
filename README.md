@@ -9,9 +9,6 @@ By directly predicting phase and amplitude for each transducer element, the mode
 
 ## Features
 
-- **Skull-induced physics-aware modeling for tFUS**
-  - A deep learning framework that predicts phase and amplitude corrections for transcranial focused ultrasound to compensate for skull-induced acoustic distortions.
-
 - **Element-wise prediction for phased-array transducers**
   - Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
 
@@ -21,11 +18,6 @@ By directly predicting phase and amplitude for each transducer element, the mode
 - **Simulation-driven training pipeline**
   - Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
 
-- **Evaluation with multiple acoustic focusing metrics**
-  - Model performance is evaluated using metrics such as Peak Location Error (PLE), Mean Surface Distance (MSD), Relative Peak Pressure (RPP), and phase/amplitude prediction errors.
-
-- **Example inference pipeline**
-  - The repository provides pretrained models and example data that allow users to reproduce the inference workflow for a representative skull case.
 
 ## Repository Structure
 
@@ -83,3 +75,22 @@ The repository also provides scripts for training the models from scratch.
 `Phase_fine_tuning.py` and `Amp_fine_tuning.py`
 
 Note that pretrained and fine-tuned models used in the paper are already provided in the Google Drive link.
+
+## Loss Function
+
+For phase model training, the model uses a customized loss function incorporating KL loss and Cosine-based Circular loss.
+
+For amplitude model training, the model uses a Huber loss as a loss function.
+
+
+## Evaluation
+
+- **Phase Prediction Performance**
+  : evaluated using Circular Mean Absolute Error (CMAE), Circular Huber Loss, and Cosine-based Circular Loss.
+
+- **Amplitude Prediction Performance**
+  : evaluated using Relative Energy Error (REE), Mean Absolute Error (MAE), and Huber Loss.
+
+- **Ultrasound Focusing Accuracy**
+  : evaluated using Peak Location Error (PLE), Mean Surface Distance (MSD), Relative Peak Pressure (RPP).
+
