@@ -108,5 +108,5 @@ For phase model training, a customized loss combining **KL loss** and **cosine-b
 
 If you find this repository useful, please cite:
 
-Minju-Seol et al.,
+Minju Seol et al.,
 Deep Learning Based Real-Time Phase-Amplitude Correction for Phased Array Transducers in Transcranial Focused Ultrasound.
