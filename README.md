@@ -81,9 +81,7 @@ Note that pretrained and fine-tuned models used in the paper are already provide
 
 ## Loss Function
 
-For phase model training, the model uses a customized loss function incorporating KL loss and Cosine-based Circular loss.
-
-For amplitude model training, the model uses a Huber loss as a loss function.
+For amplitude model training, the model uses a **Huber loss** as a loss function, while the model uses a customized loss function incorporating **KL loss** and **Cosine-based Circular loss** for phase model training.
 
 
 ## Evaluation
