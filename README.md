@@ -58,6 +58,15 @@ https://drive.google.com/drive/folders/1Hw5GOtM4PqualxSg2lXmMF2VakDnGVZf?usp=sha
 
 After downloading, place the files into the repository as follows:
 
+- `repo_example_data.pt` → `data/`
+  
+- The 1024 pretrained amplitude models in `Amp_model/Base/` → `checkpoints/Amp_model/Base/`
+  
+- The fine-tuned amplitude models in `Amp_model/Fine_tuned/` → `checkpoints/Amp_model/Fine_tuned/`
+  
+- The 1024 pretrained phase models in `Phase_model/Base/` → `checkpoints/Phase_model/Base/`
+  
+- The fine-tuned phase models in `Phase_model/Fine_tuned/` → `checkpoints/Phase_model/Fine_tuned/`
 
 ## Running Inference
 
