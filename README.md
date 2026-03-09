@@ -10,13 +10,13 @@ By directly predicting phase and amplitude for each transducer element, the mode
 ## Features
 
 - **Element-wise prediction for phased-array transducers**
-  - Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
+  : Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
 
 - **Fast inference compared to simulation-based approaches**
-  - The model replaces computationally expensive acoustic simulations with neural network inference, enabling significantly faster prediction of focusing parameters.
+  : The model replaces computationally expensive acoustic simulations with neural network inference, enabling significantly faster prediction of focusing parameters.
 
 - **Simulation-driven training pipeline**
-  - Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
+  : Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
 
 
 ## Repository Structure
