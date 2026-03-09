@@ -3,7 +3,7 @@
 ## Overview
 
 This repository provides the implementation of a deep learning model for predicting phase and amplitude corrections in transcranial focused ultrasound (tFUS). 
-Complex human skull structure causes strong acoustic distortions that leads to phase aberration and amplitude reduction, which can significantly degrade focusing accuracy.
+Complex human skull structure causes strong acoustic distortions that lead to phase aberration and amplitude reduction, which can significantly degrade focusing accuracy.
 The proposed framework learns the mapping between skull geometry and acoustic propagation using neural networks trained on simulation data. 
 By directly predicting phase and amplitude for each transducer element, the model enables fast and scalable inference compared to conventional time-reversal or wave simulation methods.
 
@@ -11,15 +11,15 @@ By directly predicting phase and amplitude for each transducer element, the mode
 
 - **Element-wise prediction for phased-array transducers**
 
-  : Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
+  Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
 
 - **Fast inference compared to simulation-based approaches**
 
-  : The model replaces computationally expensive acoustic simulations with neural network inference, enabling significantly faster prediction of focusing parameters.
+  The model replaces computationally expensive acoustic simulations with neural network inference, enabling significantly faster prediction of focusing parameters.
 
 - **Simulation-driven training pipeline**
 
-  : Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
+  Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
 
 
 ## Repository Structure
@@ -33,7 +33,7 @@ By directly predicting phase and amplitude for each transducer element, the mode
 
 ## Example Dataset
 
-Due to the large size of the dataset, we provide a representative example case.
+Due to the large size of the full dataset, we provide a representative example case.
 The example corresponds to:
 
 - **Area:** Area1
@@ -46,7 +46,7 @@ This example dataset is sufficient to reproduce the inference pipeline.
 - Python 3.9+
 - torch 2.5.1+cu121
 - NumPy 2.2.6
-- NVIDIA GPU with CUDA support (recommended for efficient inference)
+- CUDA 12.1 (for GPU acceleration, recommended)
 
 ## Download Models and Data
 
@@ -90,8 +90,8 @@ Note that pretrained and fine-tuned models used in the paper are already provide
 
 ## Loss Function
 
-For amplitude model training, the model uses a **Huber loss** as a loss function, while the model uses a customized loss function incorporating **KL loss** and **Cosine-based Circular loss** for phase model training.
-
+For amplitude model training, the **Huber loss** is used. 
+For phase model training, a customized loss combining **KL loss** and **cosine-based circular loss** is used.
 
 ## Evaluation
 
@@ -104,3 +104,9 @@ For amplitude model training, the model uses a **Huber loss** as a loss function
 - **Ultrasound Focusing Accuracy**
   : evaluated using Peak Location Error (PLE), Mean Surface Distance (MSD), Relative Peak Pressure (RPP).
 
+## Citation
+
+If you find this repository useful, please cite:
+
+Minju-Seol et al.,
+Deep Learning Based Real-Time Phase-Amplitude Correction for Phased Array Transducers in Transcranial Focused Ultrasound.
