@@ -30,24 +30,43 @@ By directly predicting phase and amplitude for each transducer element, the mode
 ## Repository Structure
 
 repo/
+
 ├── data/
+
 │ └── repo_example_data.pt # Example inference dataset (Area1, Skull8)
+
 │
+
 ├── checkpoints/
+
 │ ├── phase_base/ # Base models for phase prediction
+
 │ ├── amp_base/ # Base models for amplitude prediction
+
 │ ├── phase_fine/ # Fine-tuned phase models
+
 │ └── amp_fine/ # Fine-tuned amplitude models
+
 │
+
 ├── scripts/
+
 │ ├── Phase_base_training.py # Training script for phase base models
+
 │ ├── Phase_fine_tuning.py # Fine-tuning script for phase models
+
 │ ├── Amp_base_training.py # Training script for amplitude base models
+
 │ ├── Amp_fine_tuning.py # Fine-tuning script for amplitude models
+
 │ └── Final_Parallel_Inference_Batch.py # Parallel inference for all transducer elements
+
 │
+
 ├── defining_fcns.py # Utility functions used across the pipeline
+
 │
+
 └── README.md # Project documentation
 
 ## Example Dataset
