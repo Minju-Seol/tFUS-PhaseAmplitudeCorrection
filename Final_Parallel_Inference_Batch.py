@@ -138,17 +138,16 @@ class TransducerMultiHeadModelPhase(nn.Module):
         pred_phase, logits = self.phase_head(geo_feat)
 
         return pred_phase, logits
-'''
-===============================================================================================================
-                                                Data setting
-===============================================================================================================
-'''
+        
+########################################################################################################
+#                                            DATA SETTING                                              #
+########################################################################################################
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 target_skull_idx = 0
 aidx = 1
 
-data = torch.load("D:/multielement/successful_codes/github upload/repo_example_data.pt")
+data = torch.load("data/repo_example_data.pt")
 skull = data['skull']
 td_vxl = data['td_vxl']
 so_vxl = data['so_vxl']
@@ -354,10 +353,10 @@ def load_amp_batch_weights(pth_paths, device='cuda'):
 
     return {k: torch.stack(v).to(device) for k, v in weight_dict.items()}
 
-phase_paths = [f"D:/multielement/successful_codes/Seol/Final_Codes/Phase_model/area{aidx}/Fine_tuned/Skull8/{i+1:04d}.pth" for i in range(1024)]
+phase_paths = [f"checkpoints/Phase_model/Fine_tuned/{i+1:04d}.pth" for i in range(1024)]
 phase_weights = load_phase_batch_weights(phase_paths, device=device)
 
-amp_paths = [f"D:/multielement/successful_codes/Seol/Final_Codes/Amp_model/area{aidx}/Fine_tuned/Skull8/{i+1:04d}.pth" for i in range(1024)]
+amp_paths = [f"checkpoints/Amp_model/Fine_tuned/{i+1:04d}.pth" for i in range(1024)]
 amp_weights = load_amp_batch_weights(amp_paths, device=device)
 
 phase_model = TransducerMultiHeadModelPhaseBatch().to(device)
@@ -367,26 +366,6 @@ vol_pre = skull[target_skull_idx].unsqueeze(0).expand(1024,-1,-1,-1) #[1, 264, 2
 td_pre = td_vxl[target_skull_idx] #[1024,3]
 td_pre = torch.round(td_pre)
 
-phase_inference_log  = {'cmae':[], 
-                        'circ':[], 
-                        'huber':[]
-                        }
-
-amp_inference_log    = {'mae':[], 
-                        'rel_engy_err':[], 
-                        'huber':[]
-                        }
-
-time_log = {'phase_inf':[], 
-            'amp_inf':[], 
-            'wall_time':[]
-            }
-
-pred_vals = {'target_skull_idx':[], 
-             'target_point_idx':[],
-             'pred_phs':[],
-             'pred_amp':[]
-             }
 so_pre_d = so_vxl[0][0].unsqueeze(0).expand(1024,-1) #[3]
 
 _, entry_pre, exit_pre = extract_u_centered_cube(
@@ -414,7 +393,6 @@ with torch.no_grad():
 
 so_vxl = so_vxl.to(device)
 
-
 with torch.no_grad():
     for target_point_idx in test_points:
         torch.cuda.synchronize()
@@ -435,27 +413,13 @@ with torch.no_grad():
         
         torch.cuda.synchronize()
         start_ph_time = time.time()
-        pred_ph, pred_lgt = phase_model(
-            so_pre,
-            td_pre,
-            entry_pre,
-            exit_pre,
-            hu_line_pre,
-            phase_weights
-        )
+        pred_ph, pred_lgt = phase_model(so_pre, td_pre, entry_pre, exit_pre, hu_line_pre, phase_weights)
         torch.cuda.synchronize()
         end_ph_time = time.time()
     
         torch.cuda.synchronize()
         start_amp_time = time.time()
-        pred_amp = amp_model(
-            so_pre,
-            td_pre,
-            entry_pre,
-            exit_pre,
-            hu_line_pre,
-            amp_weights
-        )
+        pred_amp = amp_model(so_pre, td_pre, entry_pre, exit_pre, hu_line_pre, amp_weights)
         torch.cuda.synchronize()
         end_amp_time = time.time()
 
@@ -486,39 +450,20 @@ with torch.no_grad():
         amp_inf_time = end_amp_time - start_amp_time
         wall_time = end_wall_time - start_wall_time
     
-        # Save to Log
-        # phase_inference_log['cmae'].append(ph_cmae)
-        # phase_inference_log['circ'].append(circ_loss)
-        # phase_inference_log['huber'].append(ph_huber)
-    
-        # amp_inference_log['mae'].append(amp_mae)
-        # amp_inference_log['rel_engy_err'].append(rel_energy_error)
-        # amp_inference_log['huber'].append(amp_huber)
-    
-        time_log['phase_inf'].append(ph_inf_time)
-        time_log['amp_inf'].append(amp_inf_time)
-        time_log['wall_time'].append(wall_time)
-    
-        # pred_vals['target_skull_idx'].append(target_skull_idx)
-        # pred_vals['target_point_idx'].append(target_point_idx)
-        # pred_vals['pred_phs'].append(pred_ph)
-        # pred_vals['pred_amp'].append(pred_amp)
-        # print(pred_amp)
-    
         print('========================================================')
         print(f'Skull {target_skull_idx}, Target {target_point_idx}')
-        # print('===========================')
-        # print('Phase Pred Log')
-        # print('---------------------------')
-        # print(f'CMAE: {ph_cmae:.6f} rad')
-        # print(f'CIRC: {circ_loss: .6f}')
-        # print(f'HUBER: {ph_huber:.6f} rad')
-        # print('===========================')
-        # print('Amplitude Pred Log')
-        # print('---------------------------')
-        # print(f'MAE: {amp_mae:.6f} Pa')
-        # print(f'REL ENERGY ERR: {rel_energy_error: .6f} %')
-        # print(f'HUBER: {amp_huber:.6f} Pa')
+        print('===========================')
+        print('Phase Pred Log')
+        print('---------------------------')
+        print(f'CMAE: {ph_cmae:.6f} rad')
+        print(f'CIRC: {circ_loss: .6f}')
+        print(f'HUBER: {ph_huber:.6f} rad')
+        print('===========================')
+        print('Amplitude Pred Log')
+        print('---------------------------')
+        print(f'MAE: {amp_mae:.6f} Pa')
+        print(f'REL ENERGY ERR: {rel_energy_error: .6f} %')
+        print(f'HUBER: {amp_huber:.6f} Pa')
         print('===========================')
         print(f'Phase inf time: {ph_inf_time:.6f} s')
         print(f'Amp inf time: {amp_inf_time: .6f} s')
@@ -527,8 +472,3 @@ with torch.no_grad():
         del pred_ph, pred_amp
         torch.cuda.empty_cache()
     
-# torch.save(phase_inference_log,f'./Final_Codes/Ablation Study/AB3_Finetuning_pts/100 pts/area{aidx}/Phase/skull{target_skull_idx}_phase_inference_log.pt')
-# torch.save(phase_inference_log,f'./Final_Codes/FINAL_PARALLEL_RESULTS/area{aidx}/skull{target_skull_idx}_phase_inference_log.pt')
-# torch.save(amp_inference_log,f'./Final_Codes/FINAL_PARALLEL_RESULTS/area{aidx}/skull{target_skull_idx}_amp_inference_log.pt')
-# torch.save(time_log,f'./Final_Codes/FINAL_PARALLEL_RESULTS/area{aidx}/skull{target_skull_idx}_time_log.pt')
-# torch.save(pred_vals,f'./Final_Codes/FINAL_PARALLEL_RESULTS/area{aidx}/skull{target_skull_idx}_pred_vals.pt')
