@@ -1,7 +1,54 @@
-# Skull-informed Deep Surrogate Model for tFUS
+# Deep Learning Based Real-Time Phase-Amplitude Correction for Phased Array Transducers in Transcranial Focused Ultrasound
 
-This repository provides the code and example data used for the study on
-Deep Learning Based Real-Time Phase-Amplitude Correction for Phased Array Transducers in Transcranial Focused Ultrasound.
+## Overview
+
+This repository provides the implementation of a deep learning model for predicting phase and amplitude corrections in transcranial focused ultrasound (tFUS). 
+Complex human skull structure causes strong acoustic distortions that leads to phase aberration and amplitude reduction, which can significantly degrade focusing accuracy.
+The proposed framework learns the mapping between skull geometry and acoustic propagation using neural networks trained on simulation data. 
+By directly predicting phase and amplitude for each transducer element, the model enables fast and scalable inference compared to conventional time-reversal or wave simulation methods.
+
+## Features
+
+- **Skull-induced physics-aware modeling for tFUS**
+  - A deep learning framework that predicts phase and amplitude corrections for transcranial focused ultrasound to compensate for skull-induced acoustic distortions.
+
+- **Element-wise prediction for phased-array transducers**
+  - Independent neural networks are trained to estimate the optimal phase and amplitude for each transducer element in a large phased-array system.
+
+- **Fast inference compared to simulation-based approaches**
+  - The model replaces computationally expensive acoustic simulations with neural network inference, enabling significantly faster prediction of focusing parameters.
+
+- **Simulation-driven training pipeline**
+  - Training data are generated using acoustic simulations, allowing the model to learn the relationship between skull geometry and acoustic wave propagation.
+
+- **Evaluation with multiple acoustic focusing metrics**
+  - Model performance is evaluated using metrics such as Peak Location Error (PLE), Mean Surface Distance (MSD), Relative Peak Pressure (RPP), and phase/amplitude prediction errors.
+
+- **Example inference pipeline**
+  - The repository provides pretrained models and example data that allow users to reproduce the inference workflow for a representative skull case.
+
+## Repository Structure
+
+repo/
+├── data/
+│ └── repo_example_data.pt # Example inference dataset (Area1, Skull8)
+│
+├── checkpoints/
+│ ├── phase_base/ # Base models for phase prediction
+│ ├── amp_base/ # Base models for amplitude prediction
+│ ├── phase_fine/ # Fine-tuned phase models
+│ └── amp_fine/ # Fine-tuned amplitude models
+│
+├── scripts/
+│ ├── Phase_base_training.py # Training script for phase base models
+│ ├── Phase_fine_tuning.py # Fine-tuning script for phase models
+│ ├── Amp_base_training.py # Training script for amplitude base models
+│ ├── Amp_fine_tuning.py # Fine-tuning script for amplitude models
+│ └── Final_Parallel_Inference_Batch.py # Parallel inference for all transducer elements
+│
+├── defining_fcns.py # Utility functions used across the pipeline
+│
+└── README.md # Project documentation
 
 ## Example Dataset
 
@@ -13,6 +60,13 @@ The example corresponds to:
 
 This example dataset is sufficient to reproduce the inference pipeline.
 
+## Requirements
+
+- Python 3.9+
+- torch 2.5.1+cu121
+- NumPy 2.2.6
+- NVIDIA GPU with CUDA support (recommended for efficient inference)
+
 ## Download Models and Data
 
 Pretrained models and example inference data can be downloaded from:
@@ -22,3 +76,24 @@ Pretrained models and example inference data can be downloaded from:
 https://drive.google.com/drive/folders/1Hw5GOtM4PqualxSg2lXmMF2VakDnGVZf?usp=sharing
 
 After downloading, place the files into the repository as follows:
+
+
+## Running Inference
+
+1. Download the pretrained models and example data from the Google Drive link provided above.
+
+2. Place the downloaded files in the repository following the structure described in **Download Models and Data**.
+
+3. Run the inference script `Final_Parallel_Inference_Batch.py` to get the final predicted phase and amplitude for target point.
+
+## Training (Optional)
+
+The repository also provides scripts for training the models from scratch.
+
+1. Train the base models using:
+`Phase_base_training.py` and `Amp_base_training.py`. 
+
+2. Fine-tune the model for target skull using:
+`Phase_fine_tuning.py` and `Amp_fine_tuning.py`
+
+Note that pretrained and fine-tuned models used in the paper are already provided in the Google Drive link.
