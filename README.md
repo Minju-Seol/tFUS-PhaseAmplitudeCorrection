@@ -24,6 +24,7 @@ By directly predicting phase and amplitude for each transducer element, the mode
 
 ## Repository Structure
 
+- `Model_Architecture.py` : implementation of the neural network architectures used for phase and amplitude prediction
 - `Phase_base_training.py` : training script for phase base models  
 - `Phase_fine_tuning.py` : fine-tuning script for phase models  
 - `Amp_base_training.py` : training script for amplitude base models  
