@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+@author: CMME Minju Seol
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
