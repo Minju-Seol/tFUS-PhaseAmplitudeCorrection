@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+"""
+@author: CMME Minju Seol
+"""
 import torch
 import time
 import numpy as np
