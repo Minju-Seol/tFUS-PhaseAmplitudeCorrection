@@ -111,4 +111,4 @@ If you find this repository useful, please cite:
 
 Minju Seol et al.,
 Deep Learning Based Real-Time Phase-Amplitude Correction for Phased Array Transducers in Transcranial Focused Ultrasound.
-Manuscript under preparation.
+Manuscript in preparation.
