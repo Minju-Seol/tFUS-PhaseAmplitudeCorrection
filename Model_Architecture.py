@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 10 15:08:46 2026
-
 @author: CMME Minju Seol
 """
 import torch
@@ -136,3 +134,4 @@ class TransducerMultiHeadModelPhase(nn.Module):
         pred_phase, logits = self.phase_head(geo_feat)
 
         return pred_phase, logits
+
